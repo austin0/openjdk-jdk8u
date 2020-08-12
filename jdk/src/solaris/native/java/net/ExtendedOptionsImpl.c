@@ -457,6 +457,8 @@ JNIEXPORT jboolean JNICALL Java_sun_net_ExtendedOptionsImpl_keepAliveOptionsSupp
 
 #endif /* __linux__ || MACOSX */
 
+#if defined(__linux__) || defined(MACOSX)
+
 /*
  * Class:     sun_net_ExtendedOptionsImpl
  * Method:    setTcpKeepAliveProbes
@@ -522,3 +524,73 @@ JNIEXPORT jint JNICALL Java_sun_net_ExtendedOptionsImpl_getTcpKeepAliveIntvl
     return getTcpSocketOption(env, fileDesc, TCP_KEEPINTVL, SOCK_OPT_LEVEL,
                               "get option TCP_KEEPINTVL failed");
 }
+
+#else
+
+/*
+ * Class:     sun_net_ExtendedOptionsImpl
+ * Method:    setTcpKeepAliveProbes
+ * Signature: (Ljava/io/FileDescriptor;I)V
+ */
+JNIEXPORT void JNICALL Java_sun_net_ExtendedOptionsImpl_setTcpKeepAliveProbes
+(JNIEnv *env, jobject unused, jobject fileDesc) {
+    JNU_ThrowByName(env, "java/lang/UnsupportedOperationException",
+        "unsupported socket option");
+}
+
+/*
+ * Class:     sun_net_ExtendedOptionsImpl
+ * Method:    setTcpKeepAliveTime
+ * Signature: (Ljava/io/FileDescriptor;I)V
+ */
+JNIEXPORT void JNICALL Java_sun_net_ExtendedOptionsImpl_setTcpKeepAliveTime
+(JNIEnv *env, jobject unused, jobject fileDesc) {
+    JNU_ThrowByName(env, "java/lang/UnsupportedOperationException",
+        "unsupported socket option");
+}
+
+/*
+ * Class:     sun_net_ExtendedOptionsImpl
+ * Method:    setTcpKeepAliveIntvl
+ * Signature: (Ljava/io/FileDescriptor;I)V
+ */
+JNIEXPORT void JNICALL Java_sun_net_ExtendedOptionsImpl_setTcpKeepAliveIntvl
+(JNIEnv *env, jobject unused, jobject fileDesc) {
+    JNU_ThrowByName(env, "java/lang/UnsupportedOperationException",
+        "unsupported socket option");
+}
+
+/*
+ * Class:     sun_net_ExtendedOptionsImpl
+ * Method:    getTcpKeepAliveProbes
+ * Signature: (Ljava/io/FileDescriptor;)I
+ */
+JNIEXPORT jint JNICALL Java_sun_net_ExtendedOptionsImpl_getTcpKeepAliveProbes
+(JNIEnv *env, jobject unused, jobject fileDesc) {
+    JNU_ThrowByName(env, "java/lang/UnsupportedOperationException",
+        "unsupported socket option");
+}
+
+/*
+ * Class:     sun_net_ExtendedOptionsImpl
+ * Method:    getTcpKeepAliveTime
+ * Signature: (Ljava/io/FileDescriptor;)I
+ */
+JNIEXPORT jint JNICALL Java_sun_net_ExtendedOptionsImpl_getTcpKeepAliveTime
+(JNIEnv *env, jobject unused, jobject fileDesc) {
+    JNU_ThrowByName(env, "java/lang/UnsupportedOperationException",
+        "unsupported socket option");
+}
+
+/*
+ * Class:     sun_net_ExtendedOptionsImpl
+ * Method:    getTcpKeepAliveIntvl
+ * Signature: (Ljava/io/FileDescriptor;)I
+ */
+JNIEXPORT jint JNICALL Java_sun_net_ExtendedOptionsImpl_getTcpKeepAliveIntvl
+(JNIEnv *env, jobject unused, jobject fileDesc) {
+    JNU_ThrowByName(env, "java/lang/UnsupportedOperationException",
+        "unsupported socket option");
+}
+
+#endif /* __linux__ || MACOSX */
