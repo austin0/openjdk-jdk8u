@@ -445,6 +445,18 @@ JNIEXPORT jboolean JNICALL Java_sun_net_ExtendedOptionsImpl_keepAliveOptionsSupp
 
 #else
 
+// On AIX and Solaris these constants aren't defined. Map them to a
+// value so that the code below compiles. Values aren't used as
+// on those platforms UnsupportedOperationException will be thrown
+// instead.
+#define SOCK_OPT_LEVEL -1
+#define SOCK_OPT_NAME_KEEPIDLE -1
+#define SOCK_OPT_NAME_KEEPIDLE_STR "TCP_KEEPIDLE"
+#define TCP_KEEPCNT -1
+#define TCP_KEEPINTVL -1
+#define SOCK_OPT_LEVEL -1
+#define SOCK_OPT_NAME_KEEPIDLE -1
+
 /*
  * Class:     sun_net_ExtendedOptionsImpl
  * Method:    keepAliveOptionsSupported
