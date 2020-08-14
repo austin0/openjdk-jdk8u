@@ -25,10 +25,8 @@
 
 #include <jni.h>
 #include <string.h>
-#if defined(__linux__) || defined(MACOSX)
 #include <netinet/tcp.h>
 #include <netinet/in.h>
-#endif
 
 #include "net_util.h"
 #include "jdk_net_SocketFlow.h"
