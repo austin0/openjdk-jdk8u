@@ -332,8 +332,6 @@ static jboolean flowSupported0() {
     return JNI_FALSE;
 }
 
-#endif /* __solaris__ */
-
 // Keep alive options are available for MACOSX and Linux only for
 // the time being.
 #if defined(__linux__) || defined(MACOSX)
@@ -407,23 +405,9 @@ static jint getTcpSocketOption
     }
 }
 
-#else /* __linux__ || MACOSX */
-
-/* Keep alive options not supported for non-linux/non-macosx so throw UnsupportedOpExc */
-
-static void setTcpSocketOption
-(JNIEnv *env, jobject fileDesc, jint optval, int opt, int optlevel, const char* errmsg) {
-    JNU_ThrowByName(env, "java/lang/UnsupportedOperationException",
-        "unsupported socket option");
-}
-
-static jint getTcpSocketOption
-(JNIEnv *env, jobject fileDesc, int opt, int optlevel, const char* errmsg) {
-    JNU_ThrowByName(env, "java/lang/UnsupportedOperationException",
-        "unsupported socket option");
-}
-
 #endif /* __linux__ || MACOSX*/
+
+#endif /* __solaris__ */
 
 JNIEXPORT jboolean JNICALL Java_sun_net_ExtendedOptionsImpl_flowSupported
   (JNIEnv *env, jclass UNUSED) {
@@ -465,6 +449,20 @@ JNIEXPORT jboolean JNICALL Java_sun_net_ExtendedOptionsImpl_keepAliveOptionsSupp
 JNIEXPORT jboolean JNICALL Java_sun_net_ExtendedOptionsImpl_keepAliveOptionsSupported
 (JNIEnv *env, jobject unused) {
     return JNI_FALSE;
+}
+
+/* Keep alive options not supported for non-linux/non-macosx so throw UnsupportedOpExc */
+
+static void setTcpSocketOption
+(JNIEnv *env, jobject fileDesc, jint optval, int opt, int optlevel, const char* errmsg) {
+    JNU_ThrowByName(env, "java/lang/UnsupportedOperationException",
+        "unsupported socket option");
+}
+
+static jint getTcpSocketOption
+(JNIEnv *env, jobject fileDesc, int opt, int optlevel, const char* errmsg) {
+    JNU_ThrowByName(env, "java/lang/UnsupportedOperationException",
+        "unsupported socket option");
 }
 
 #endif /* __linux__ || MACOSX */
