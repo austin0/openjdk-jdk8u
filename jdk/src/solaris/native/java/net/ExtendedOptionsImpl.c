@@ -376,6 +376,12 @@ static void handleError(JNIEnv *env, jint rv, const char *errmsg) {
     }
 }
 
+#endif /* __linux__ || MACOSX*/
+
+#endif /* __solaris__ */
+
+#if defined(__linux__) || defined(MACOSX)
+
 static void setTcpSocketOption
 (JNIEnv *env, jobject fileDesc, jint optval, int opt, int optlevel, const char* errmsg) {
     int fd = getFD(env, fileDesc);
@@ -422,8 +428,6 @@ static jint getTcpSocketOption
 }
 
 #endif /* __linux__ || MACOSX*/
-
-#endif /* __solaris__ */
 
 JNIEXPORT jboolean JNICALL Java_sun_net_ExtendedOptionsImpl_flowSupported
   (JNIEnv *env, jclass UNUSED) {
