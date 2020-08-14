@@ -25,8 +25,10 @@
 
 #include <jni.h>
 #include <string.h>
+#if defined(__linux__) || defined(MACOSX)
 #include <netinet/tcp.h>
 #include <netinet/in.h>
+#endif
 
 #include "net_util.h"
 #include "jdk_net_SocketFlow.h"
@@ -330,6 +332,8 @@ static jboolean flowSupported0() {
     return JNI_FALSE;
 }
 
+#endif /* __solaris__ */
+
 // Keep alive options are available for MACOSX and Linux only for
 // the time being.
 #if defined(__linux__) || defined(MACOSX)
@@ -420,8 +424,6 @@ static jint getTcpSocketOption
 }
 
 #endif /* __linux__ || MACOSX*/
-
-#endif /* __solaris__ */
 
 JNIEXPORT jboolean JNICALL Java_sun_net_ExtendedOptionsImpl_flowSupported
   (JNIEnv *env, jclass UNUSED) {
