@@ -332,6 +332,8 @@ static jboolean flowSupported0() {
     return JNI_FALSE;
 }
 
+#endif /* __solaris__ */
+
 // Keep alive options are available for MACOSX and Linux only for
 // the time being.
 #if defined(__linux__) || defined(MACOSX)
@@ -376,12 +378,6 @@ static void handleError(JNIEnv *env, jint rv, const char *errmsg) {
     }
 }
 
-#endif /* __linux__ || MACOSX*/
-
-#endif /* __solaris__ */
-
-#if defined(__linux__) || defined(MACOSX)
-
 static void setTcpSocketOption
 (JNIEnv *env, jobject fileDesc, jint optval, int opt, int optlevel, const char* errmsg) {
     int fd = getFD(env, fileDesc);
@@ -412,6 +408,18 @@ static jint getTcpSocketOption
 }
 
 #else /* __linux__ || MACOSX */
+
+// On AIX and Solaris these constants aren't defined. Map them to a
+// value so that the code below compiles. Values aren't used as
+// on those platforms UnsupportedOperationException will be thrown
+// instead.
+#define SOCK_OPT_LEVEL -1
+#define SOCK_OPT_NAME_KEEPIDLE -1
+#define SOCK_OPT_NAME_KEEPIDLE_STR "TCP_KEEPIDLE"
+#define TCP_KEEPCNT -1
+#define TCP_KEEPINTVL -1
+#define SOCK_OPT_LEVEL -1
+#define SOCK_OPT_NAME_KEEPIDLE -1
 
 /* Keep alive options not supported for non-linux/non-macosx so throw UnsupportedOpExc */
 
@@ -448,18 +456,6 @@ JNIEXPORT jboolean JNICALL Java_sun_net_ExtendedOptionsImpl_keepAliveOptionsSupp
 }
 
 #else
-
-// On AIX and Solaris these constants aren't defined. Map them to a
-// value so that the code below compiles. Values aren't used as
-// on those platforms UnsupportedOperationException will be thrown
-// instead.
-#define SOCK_OPT_LEVEL -1
-#define SOCK_OPT_NAME_KEEPIDLE -1
-#define SOCK_OPT_NAME_KEEPIDLE_STR "TCP_KEEPIDLE"
-#define TCP_KEEPCNT -1
-#define TCP_KEEPINTVL -1
-#define SOCK_OPT_LEVEL -1
-#define SOCK_OPT_NAME_KEEPIDLE -1
 
 /*
  * Class:     sun_net_ExtendedOptionsImpl
